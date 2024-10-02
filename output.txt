@@ -1,0 +1,5 @@
+'Am I a Muenster for Making Cheese Puns?' Output File
+ Number of cheeses that use pasteurized milk: 800
+ Number of cheeses that use raw milk: 115
+ Number of organic cheeses that have a moisture percentage greater than 41.0%: 53
+ Type of animal milk that most of the cheeses come from in Canada: Cow
