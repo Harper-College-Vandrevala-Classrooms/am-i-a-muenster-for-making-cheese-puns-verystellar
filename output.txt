@@ -3,3 +3,4 @@
  Number of cheeses that use raw milk: 115
  Number of organic cheeses that have a moisture percentage greater than 41.0%: 53
  Type of animal milk that most of the cheeses come from in Canada: Cow
+ Average Moisture Percent: 47.069747081712066

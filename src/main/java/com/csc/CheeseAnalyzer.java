@@ -34,6 +34,9 @@ public class CheeseAnalyzer {
     int maxCount = 0;
     int idxOfCount = 0;
 
+    double avgMoist  = 0.0;
+    ArrayList<String> missingCheeseID = new ArrayList<>();
+
 
 
     void intializeList(){
@@ -97,6 +100,21 @@ public class CheeseAnalyzer {
             }
         }
     }
+    void calcAvgMoistPercent(){
+        int numOfValues = 0;
+        double runningTotal = 0.0;
+        for (int i = 0; i < organic.size(); i++) {
+            try {
+                double percent = Double.parseDouble(moisturePercent.get(i));
+                runningTotal += percent;
+                numOfValues++;
+                } catch (NumberFormatException e) {
+                }
+
+
+        }
+        avgMoist = runningTotal / numOfValues;
+    }
 
     void calcAnimalIdx() {
         for (int i = 0; i < milkTypeCount.length; i++) {
@@ -132,6 +150,23 @@ public class CheeseAnalyzer {
         milkTypeCount[3] = numOfGoat;
     }
 
+    void calcMissingIds(){
+        int lastidx = cheeseID.size() - 1;
+        String lastID = cheeseID.get(lastidx);
+        int lastIDValue = Integer.parseInt(lastID);
+
+        for(int i = 0; i <= lastIDValue; i++) {
+            String id = Integer.toString(i);
+            missingCheeseID.add(id);
+        }
+
+        for(int i = 0; i < cheeseID.size(); i++) {
+            String id = cheeseID.get(i);
+            missingCheeseID.remove(id);
+        }
+
+    }
+
     public static void main(String[] args) {
         CheeseAnalyzer cheeseAnalyzer = new CheeseAnalyzer();
         String file = "src\\cheese_data.csv"; //read in file
@@ -163,7 +198,8 @@ public class CheeseAnalyzer {
         cheeseAnalyzer.setAnimalCounts();
         cheeseAnalyzer.calcAnimalIdx();
         cheeseAnalyzer.calcMostCommonAnimal();
-
+        cheeseAnalyzer.calcAvgMoistPercent();
+        cheeseAnalyzer.calcMissingIds();
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"));
             writer.write("'Am I a Muenster for Making Cheese Puns?' Output File");
@@ -173,7 +209,17 @@ public class CheeseAnalyzer {
                             + cheeseAnalyzer.numOfMoistOrganic);
             writer.append("\n Type of animal milk that most of the cheeses come from in Canada: "
                             + cheeseAnalyzer.mostCommonAnimal);
+            writer.append("\n Average Moisture Percent: "
+                    + cheeseAnalyzer.avgMoist);
             writer.close();
+            BufferedWriter writer1 = new BufferedWriter(new FileWriter("missing_ids.txt"));
+            writer1.write("'Am I a Muenster for Making Cheese Puns?' Missing IDs: \n");
+            for(int i = 1; i < cheeseAnalyzer.missingCheeseID.size(); i++) {
+                writer1.write(cheeseAnalyzer.missingCheeseID.get(i));
+                writer1.write("\n");
+            }
+            writer1.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
